@@ -1,0 +1,58 @@
+name: Publish Eldent website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    defaults:
+      run:
+        working-directory: eldent-github-20261013-204114
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build website
+        run: |
+          sed -i 's|src="/preview/index.html"|src="preview/index.html"|g' src/App.jsx
+          npx vite build --base=./
+          rm -rf dist/client/admin
+          touch dist/client/.nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: eldent-github-20261013-204114/dist/client
+
+      - name: Publish website
+        id: deployment
+        uses: actions/deploy-pages@v4
