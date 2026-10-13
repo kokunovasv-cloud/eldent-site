@@ -1,0 +1,44 @@
+:root {
+  --button-pink: #c01080;
+  --button-pink-hover: #a80e70;
+}
+body .button,
+body .button.secondary,
+body .category-button.selected {
+  background: var(--button-pink);
+  border-color: var(--button-pink);
+  color: #fff;
+}
+body .button:hover,
+body .button.secondary:hover,
+body .category-button.selected:hover {
+  background: var(--button-pink-hover);
+  border-color: var(--button-pink-hover);
+}
+body button:not(.button):not(.category-button.selected),
+body .text-link,
+body .category-button span {
+  color: var(--button-pink);
+}
+body .category-button.selected span { color: #fff; }
+body .menu-toggle,
+body .circle-arrow { border-color: var(--button-pink); }
+body .service:hover .circle-arrow,
+body .category-button:not(.selected):hover,
+body .menu-toggle:hover { background: #fcebf6; }
+body .round img,
+body .circle-arrow img,
+body .text-link img,
+body .menu-toggle img {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(95%) saturate(3045%) hue-rotate(310deg) brightness(83%) contrast(101%);
+}
+body .button > .icon,
+body .button.secondary > .icon { filter: brightness(0) invert(1); }
+
+/* Headings retain the H2 text color, including headings inside service buttons. */
+body button h1,
+body button h2,
+body button h3,
+body button h4,
+body button h5,
+body button h6 { color: var(--text); }
